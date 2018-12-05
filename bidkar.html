@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>Proyecto de Biblioteca en Ubuntu Server 18.04.1</title></head>
+<body><h1>Proyecto de Biblioteca en Ubuntu Server 18.04.1</h1>
+<h2>Marco de Jesús González Cota 5AM-Programación</h2>
+<p>&nbsp;</p>
+<ol start='' >
+<li><p><strong>Instalación de Apache, MySQL y PHP.</strong></p>
+<p><em>Código:</em> $ sudo apt install apache2 php mysql-server mysql</p>
+<p>&nbsp;</p>
+<ol start='2' >
+<li><strong>Códigos para la ejecución de los programas instalados.</strong></li>
+
+</ol>
+<p>$ sudo service apache2 start</p>
+<p>$ sudo service mysql start</p>
+<p>$ php --version</p>
+<p>&nbsp;</p>
+<ol start='3' >
+<li><p><strong>Ahora configuramos los archivos de raíz de Apache para ello usaremos los siguientes códigos.</strong></p>
+<p>$ cd /var/www/html</p>
+<p>$ sudo git clone &lt;<a href='https://github.com/dgeti-cetis108/Programacion-M4S2-2018.git' target='_blank' class='url'>https://github.com/dgeti-cetis108/Programacion-M4S2-2018.git</a></p>
+<blockquote><p>&nbsp;</p>
+</blockquote>
+</li>
+
+</ol>
+<p><strong>3.1. Usaremos el siguiente código para renombrar nuestra base y ponerle el dominio deseado:</strong></p>
+<p>$ sudo mv Programacion-M4S2-2018 library.com</p>
+<p>&nbsp;</p>
+<p><strong>3.2. Ahora lo cambiaremos de directorio a la ruta deseada:</strong></p>
+<p>$ cd library.com/db</p>
+<p>$ sudo -i</p>
+<p>&nbsp;</p>
+<ol start='4' >
+<li><p><strong>Iniciamos MySQL:</strong></p>
+<p>#mysql</p>
+<p>&nbsp;</p>
+<p><strong>4.1. Introducimos la fuente de nuestra Base de Datos.</strong></p>
+</li>
+
+</ol>
+<p>mysql&gt;source /var/www/html/library.com/db/library.sql</p>
+<p>&nbsp;</p>
+<p><strong>4.2. Ahora crearemos nuestro usuario y posteriormente la contraseña para ingresar a nuestra base.</strong></p>
+<p>mysql&gt;create user ´marco´@´localhost´ identified by ´123´;</p>
+<p>&nbsp;</p>
+<p><strong>4.3. Ahora le otorgaremos los permisos, para acceder a la base desde nuestro usuario.</strong></p>
+<p>mysql&gt;grant all on library.* to ´marco´@´localhost´;</p>
+<p>&nbsp;</p>
+<p><strong>4.4. Listo, ahora nos salimos de MySQL.</strong></p>
+<p>mysql&gt;exit</p>
+<p>&nbsp;</p>
+<ol start='5' >
+<li><p><strong>Ahora probaremos la conexión a MySQL con nuestro usuario.</strong></p>
+<p>$ sudo nano /var/www/html/library.com/classes/conexion.php</p>
+<p>&nbsp;</p>
+<p><strong>5.1. Con el siguiente código reiniciamos Apache para actualizar los cambios</strong></p>
+<p>$ sudo service apache2 restart</p>
+<p>&nbsp;</p>
+</li>
+
+</ol>
+</li>
+
+</ol>
+<ol start='6' >
+<li><p><strong>Ahora configuramos nuestro DNS local y nuestro VirtualHost.</strong></p>
+<p>&lt;VirtualHost *:80&gt;</p>
+<p>	ServerName &quot;library.com&quot;</p>
+<p>	ServerAlias &quot;<a href='http://www.library.com/'>www.library.com</a>&quot;</p>
+<p>​	Server Admin &quot;<a href='mailto:mdjgc2001@gmail.com' target='_blank' class='url'>mdjgc2001@gmail.com</a>&quot;</p>
+<p>​	DocumentRoot &quot;/var/www/html/library.com&quot;</p>
+<p>​	ErrorLog &quot;/var/log/library.com-error.log&quot;</p>
+<p>​	CustomLog &quot;/var/log/library.com-access.log&quot; common</p>
+<p>&lt;/VirtualHost&gt;</p>
+<p>&nbsp;</p>
+<ol start='7' >
+<li><p><strong>Ahora activamos nuestro sito virtual y reiniciamos Apache para guardar cambios.</strong></p>
+<p>$ sudo a2ensite library.com</p>
+<p>$ sudo service apache2 restart</p>
+<p>&nbsp;</p>
+<p><strong>Y esto sería todo.</strong></p>
+</li>
+
+</ol>
+</li>
+
+</ol>
+</body>
+</html>
